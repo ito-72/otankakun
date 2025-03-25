@@ -1,3 +1,4 @@
+
 /* style.css */
 body {
   font-family: sans-serif;
@@ -45,10 +46,15 @@ body {
 }
 
 #input-form input,
-#input-form select,
-#input-form button {
+#input-form select {
   padding: 0.4em;
   font-size: 1em;
+}
+
+#input-form button {
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  margin-top: 0.5em;
 }
 
 .comparison-section {

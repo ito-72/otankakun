@@ -26,11 +26,18 @@
     <table class="item-table">
       <thead>
         <tr>
-          <th>単価</th><th>員数</th><th>単位</th><th>個数</th><th>金額</th>
+          <th>単価</th><th>内容</th><th>単位</th><th>個数</th><th>金額</th><th>個数</th>
         </tr>
       </thead>
       <tbody id="item-data">
-        <!-- 取得データで動的に埋まる -->
+        <tr>
+          <td id="unit-price">--</td>
+          <td id="content-amount">--</td>
+          <td id="unit">--</td>
+          <td id="count">--</td>
+          <td id="price">--</td>
+          <td id="count-again">--</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -38,14 +45,16 @@
   <!-- 下部エリア -->
   <div class="section bottom-section">
     <form id="input-form">
+      <label><input type="checkbox" id="input-sale" /> セール</label>
       <input type="text" placeholder="項目" id="input-item" required />
-      <input type="number" placeholder="員数" id="input-amount" required />
+      <input type="number" placeholder="内容" id="input-amount" required />
       <input type="text" placeholder="単位" id="input-unit" required />
       <input type="number" placeholder="個数" id="input-count" required />
       <input type="number" placeholder="金額" id="input-price" required />
       <input type="text" placeholder="お店名" id="input-store" />
-      <label><input type="checkbox" id="input-sale" /> セール</label>
-      <button type="submit">登録</button>
+      <div style="width: 100%; margin-top: 0.5em;">
+        <button type="submit">登録</button>
+      </div>
     </form>
   </div>
 
