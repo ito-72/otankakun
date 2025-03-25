@@ -1,0 +1,61 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>単価比較アプリ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 上部エリア -->
+  <div class="section top-section">
+    <button id="fetch-button">取得</button>
+  </div>
+
+  <!-- 中部エリア -->
+  <div class="section middle-section">
+    <div class="controls">
+      <label><input type="checkbox" id="sale-toggle" /> セール中</label>
+      <select id="item-select">
+        <option>トイレットペーパー</option>
+        <option>ティッシュ</option>
+        <!-- 他の登録項目も追加 -->
+      </select>
+    </div>
+    <table class="item-table">
+      <thead>
+        <tr>
+          <th>単価</th><th>員数</th><th>単位</th><th>個数</th><th>金額</th>
+        </tr>
+      </thead>
+      <tbody id="item-data">
+        <!-- 取得データで動的に埋まる -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 下部エリア -->
+  <div class="section bottom-section">
+    <form id="input-form">
+      <input type="text" placeholder="項目" id="input-item" required />
+      <input type="number" placeholder="員数" id="input-amount" required />
+      <input type="text" placeholder="単位" id="input-unit" required />
+      <input type="number" placeholder="個数" id="input-count" required />
+      <input type="number" placeholder="金額" id="input-price" required />
+      <input type="text" placeholder="お店名" id="input-store" />
+      <label><input type="checkbox" id="input-sale" /> セール</label>
+      <button type="submit">登録</button>
+    </form>
+  </div>
+
+  <!-- 最下層エリア -->
+  <div class="section comparison-section">
+    <p>登録済みの単価：<span id="existing-unit-price">--</span></p>
+    <p>今回入力の単価：<span id="current-unit-price">--</span></p>
+    <p id="comparison-result"></p>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
