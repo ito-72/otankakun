@@ -23,9 +23,9 @@
     <thead>
       <tr>
         <th>項目</th>
-        <th>内容</th>
+        <th>内容量</th>
         <th>単位</th>
-        <th>個数</th>
+        <th>個数（内容量のものがいくつあるか）</th>
         <th>税抜き</th>
         <th>税込み</th>
         <th>単価</th>
@@ -47,6 +47,70 @@
       </tr>
     </tbody>
   </table>
+
+
+<!-- 入力テーブル -->
+<table border="1" style="margin-top: 2em; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>内容量</th>
+      <th>個数</th>
+      <th>金額</th>
+      <th>税抜 / 税込</th>
+      <th>単価（税込）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="number" id="input-content" /></td>
+      <td><input type="number" id="input-count" /></td>
+      <td><input type="number" id="input-price" /></td>
+      <td>
+        <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
+        <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
+      </td>
+      <td><input type="text" id="calculated-unit-price" readonly /></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table border="1" style="margin-top: 1em; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>セール中</th>
+      <th>項目</th>
+      <th>単位</th>
+      <th>お店</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="checkbox" id="input-sale" /></td>
+      <td>
+        <select id="input-item-select">
+          <option value="">-- 項目を選択 --</option>
+          <option value="__new__">＋ 新規追加</option>
+        </select>
+        <div id="new-item-wrapper" style="display:none;">
+          <input type="text" id="new-item-name" placeholder="新しい項目名" />
+        </div>
+      </td>
+      <td><input type="text" id="input-unit" /></td>
+      <td>
+        <select id="input-store-select">
+          <option value="">-- お店を選択 --</option>
+          <option value="__new__">＋ 新規追加</option>
+        </select>
+        <div id="new-store-wrapper" style="display:none;">
+          <input type="text" id="new-store-name" placeholder="新しいお店名" />
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -125,6 +189,59 @@
     }
   }
 }
+
+
+//入力関係
+ const inputContent = document.getElementById("input-content");
+  const inputCount = document.getElementById("input-count");
+  const inputPrice = document.getElementById("input-price");
+  const unitPriceField = document.getElementById("calculated-unit-price");
+
+  const inputItemSelect = document.getElementById("input-item-select");
+  const newItemWrapper = document.getElementById("new-item-wrapper");
+  const inputStoreSelect = document.getElementById("input-store-select");
+  const newStoreWrapper = document.getElementById("new-store-wrapper");
+
+  // 税抜→税込（10%）関数
+  function calculateTaxIncluded(price, isTaxBefore) {
+    return isTaxBefore ? Math.round(price * 1.1) : price;
+  }
+
+  // 単価の計算
+  function updateUnitPrice() {
+    const content = parseFloat(inputContent.value);
+    const count = parseFloat(inputCount.value);
+    const price = parseFloat(inputPrice.value);
+    const taxMode = document.querySelector('input[name="tax-mode"]:checked').value;
+
+    if (!isNaN(content) && !isNaN(count) && !isNaN(price) && content > 0 && count > 0) {
+      const totalAmount = count * content;
+      const taxedPrice = calculateTaxIncluded(price, taxMode === "before");
+      const unitPrice = taxedPrice / totalAmount;
+      unitPriceField.value = `${unitPrice.toFixed(2)} 円 / ${inputUnit.value || "単位"}`;
+    } else {
+      unitPriceField.value = "";
+    }
+  }
+
+  // イベント登録（自動計算）
+  inputContent.addEventListener("input", updateUnitPrice);
+  inputCount.addEventListener("input", updateUnitPrice);
+  inputPrice.addEventListener("input", updateUnitPrice);
+  document.querySelectorAll('input[name="tax-mode"]').forEach(radio => {
+    radio.addEventListener("change", updateUnitPrice);
+  });
+
+  // 新規項目入力欄の表示切替
+  inputItemSelect.addEventListener("change", () => {
+    newItemWrapper.style.display = inputItemSelect.value === "__new__" ? "block" : "none";
+  });
+
+  // 新規お店入力欄の表示切替
+  inputStoreSelect.addEventListener("change", () => {
+    newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
+  });
+
 
 
 
