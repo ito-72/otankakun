@@ -111,6 +111,9 @@
   </tbody>
 </table>
 
+<button id="register-btn" style="margin-top: 1em;">📝 登録</button>
+<p id="register-status" style="margin-top: 0.5em; color: green;"></p>
+
 
 
 <script>
@@ -295,8 +298,56 @@
   inputStoreSelect.addEventListener("change", () => {
     newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
   });
-</script>
 
+
+
+//登録スクリプト
+document.getElementById("register-btn").addEventListener("click", async () => {
+  const itemName = inputItemSelect.value === "__new__"
+    ? document.getElementById("new-item-name").value.trim()
+    : inputItemSelect.value;
+
+  const storeName = inputStoreSelect.value === "__new__"
+    ? document.getElementById("new-store-name").value.trim()
+    : inputStoreSelect.value;
+
+  const payload = {
+    mode: "recordItem",
+    itemName,
+    content: inputContent.value,
+    unit: inputUnit.value,
+    count: inputCount.value,
+    priceBeforeTax: inputPrice.value,
+    priceTaxed: calculateTaxIncluded(parseFloat(inputPrice.value), document.querySelector('input[name="tax-mode"]:checked').value === "before"),
+    unitPrice: unitPriceField.value,
+    unitOfUnitPrice: inputUnit.value,
+    store: storeName,
+    sale: document.getElementById("input-sale").checked
+  };
+
+  try {
+    const response = await fetch("/api/recordItem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      document.getElementById("register-status").textContent = "✅ スプレッドを更新しました！";
+    } else {
+      document.getElementById("register-status").textContent = "⚠️ 登録に失敗しました。";
+    }
+  } catch (error) {
+    console.error("登録エラー:", error);
+    document.getElementById("register-status").textContent = "⚠️ 通信エラーが発生しました。";
+  }
+});
+
+
+
+</script>
 
 
 </body>
