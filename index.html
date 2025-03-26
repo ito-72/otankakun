@@ -272,11 +272,25 @@
 
   // 新規項目・お店の欄を切り替え
   inputItemSelect.addEventListener("change", () => {
-    newItemWrapper.style.display = inputItemSelect.value === "__new__" ? "block" : "none";
-  });
-  inputStoreSelect.addEventListener("change", () => {
-    newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
-  });
+  newItemWrapper.style.display = inputItemSelect.value === "__new__" ? "block" : "none";
+
+  const selected = inputItemSelect.value;
+  if (selected === "__new__") {
+    inputUnit.value = "";
+    inputUnit.readOnly = false;
+  } else {
+    const matchedItem = allItems.find(item => item.itemName === selected);
+    if (matchedItem) {
+      inputUnit.value = matchedItem.unit || "";
+      inputUnit.readOnly = true;
+    } else {
+      inputUnit.value = "";
+      inputUnit.readOnly = false;
+    }
+  }
+});
+
+
 </script>
 
 
