@@ -74,8 +74,7 @@
   </tbody>
 </table>
 
-<button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
-
+<!-- 入力項目テーブル -->
 <table border="1" style="margin-top: 1em; border-collapse: collapse;">
   <thead>
     <tr>
@@ -97,7 +96,7 @@
           <input type="text" id="new-item-name" placeholder="新しい項目名" />
         </div>
       </td>
-      <td><input type="text" id="input-unit" /></td>
+      <td><input type="text" id="input-unit" readonly /></td> <!-- 単位欄は表示だけ -->
       <td>
         <select id="input-store-select">
           <option value="">-- お店を選択 --</option>
@@ -110,6 +109,58 @@
     </tr>
   </tbody>
 </table>
+
+<script>
+  const inputContent = document.getElementById("input-content");
+  const inputCount = document.getElementById("input-count");
+  const inputPrice = document.getElementById("input-price");
+  const unitPriceField = document.getElementById("calculated-unit-price");
+
+  const inputItemSelect = document.getElementById("input-item-select");
+  const newItemWrapper = document.getElementById("new-item-wrapper");
+  const inputStoreSelect = document.getElementById("input-store-select");
+  const newStoreWrapper = document.getElementById("new-store-wrapper");
+
+  // 税抜→税込（10%）関数
+  function calculateTaxIncluded(price, isTaxBefore) {
+    return isTaxBefore ? Math.round(price * 1.1) : price;
+  }
+
+  // 単価の計算
+  function updateUnitPrice() {
+    const content = parseFloat(inputContent.value);
+    const count = parseFloat(inputCount.value);
+    const price = parseFloat(inputPrice.value);
+    const taxMode = document.querySelector('input[name="tax-mode"]:checked').value;
+
+    if (!isNaN(content) && !isNaN(count) && !isNaN(price) && content > 0 && count > 0) {
+      const totalAmount = count * content;
+      const taxedPrice = calculateTaxIncluded(price, taxMode === "before");
+      const unitPrice = taxedPrice / totalAmount;
+      unitPriceField.value = `${unitPrice.toFixed(2)} 円`;
+    } else {
+      unitPriceField.value = "";
+    }
+  }
+
+  // イベント登録（自動計算）
+  inputContent.addEventListener("input", updateUnitPrice);
+  inputCount.addEventListener("input", updateUnitPrice);
+  inputPrice.addEventListener("input", updateUnitPrice);
+  document.querySelectorAll('input[name="tax-mode"]').forEach(radio => {
+    radio.addEventListener("change", updateUnitPrice);
+  });
+
+  // 新規項目入力欄の表示切替
+  inputItemSelect.addEventListener("change", () => {
+    newItemWrapper.style.display = inputItemSelect.value === "__new__" ? "block" : "none";
+  });
+
+  // 新規お店入力欄の表示切替
+  inputStoreSelect.addEventListener("change", () => {
+    newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
+  });
+</script>
 
 
 
@@ -226,6 +277,39 @@
   }
 
   // イベント登録（自動計算）
+ const inputContent = document.getElementById("input-content");
+  const inputCount = document.getElementById("input-count");
+  const inputPrice = document.getElementById("input-price");
+  const unitPriceField = document.getElementById("calculated-unit-price");
+
+  const inputItemSelect = document.getElementById("input-item-select");
+  const newItemWrapper = document.getElementById("new-item-wrapper");
+  const inputStoreSelect = document.getElementById("input-store-select");
+  const newStoreWrapper = document.getElementById("new-store-wrapper");
+
+  // 税抜→税込（10%）関数
+  function calculateTaxIncluded(price, isTaxBefore) {
+    return isTaxBefore ? Math.round(price * 1.1) : price;
+  }
+
+  // 単価の計算
+  function updateUnitPrice() {
+    const content = parseFloat(inputContent.value);
+    const count = parseFloat(inputCount.value);
+    const price = parseFloat(inputPrice.value);
+    const taxMode = document.querySelector('input[name="tax-mode"]:checked').value;
+
+    if (!isNaN(content) && !isNaN(count) && !isNaN(price) && content > 0 && count > 0) {
+      const totalAmount = count * content;
+      const taxedPrice = calculateTaxIncluded(price, taxMode === "before");
+      const unitPrice = taxedPrice / totalAmount;
+      unitPriceField.value = `${unitPrice.toFixed(2)} 円`;
+    } else {
+      unitPriceField.value = "";
+    }
+  }
+
+  // イベント登録（自動計算）
   inputContent.addEventListener("input", updateUnitPrice);
   inputCount.addEventListener("input", updateUnitPrice);
   inputPrice.addEventListener("input", updateUnitPrice);
@@ -242,12 +326,6 @@
   inputStoreSelect.addEventListener("change", () => {
     newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
   });
-
-
-document.getElementById("calculate-btn").addEventListener("click", () => {
-  updateUnitPrice();
-});
-
 
   </script>
 
