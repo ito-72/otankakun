@@ -74,6 +74,7 @@
   </tbody>
 </table>
 
+<button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
 
 <table border="1" style="margin-top: 1em; border-collapse: collapse;">
   <thead>
@@ -112,87 +113,117 @@
 
 
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchAndPopulateItems();
-    });
-
-    let allItems = [];
-
-    async function fetchAndPopulateItems() {
-      const statusMessage = document.getElementById("status-message");
-
-      try {
-        const response = await fetch("/api/fetchData", { method: "POST" });
-        const data = await response.json();
-        allItems = data;
-
-        console.log("取得データ:", data);
-
-        populateItemSelect();
-
-        statusMessage.style.display = "none";
-
-        // セレクト変更 or セール切替で表示更新
-        document.getElementById("item-select").addEventListener("change", updateTableDisplay);
-        document.getElementById("sale-toggle").addEventListener("change", updateTableDisplay);
-      } catch (error) {
-        console.error("データ取得エラー:", error);
-        statusMessage.textContent = "⚠️ データ取得に失敗しました";
-      }
-    }
-
-    function populateItemSelect() {
-      const displayItemSelect = document.getElementById("item-select");
-      const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
-      displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
-      uniqueItems.forEach(name => {
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        displayItemSelect.appendChild(option);
-      });
-    }
-
-   function updateTableDisplay() {
-  const selectedItem = document.getElementById("item-select").value;
-  const saleOnly = document.getElementById("sale-toggle").checked;
-
-  // 「セールの有無」と「選択された項目名」の両方でフィルター
-  const filtered = allItems.filter(item => {
-    const nameMatches = item.itemName === selectedItem;
-    const saleMatches = saleOnly ? item.sale === true : item.sale !== true;
-    return nameMatches && saleMatches;
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchAndPopulateItems();
   });
 
-  const latest = filtered[filtered.length - 1];
+  let allItems = [];
 
-  const fieldMap = {
-    "item-name": "itemName",
-    "content": "content",
-    "unit": "unit",
-    "count": "count",
-    "price-before-tax": "priceBeforeTax",
-    "price-taxed": "priceTaxed",
-    "unit-price": "unitPrice",
-    "unit-of-unit-price": "unitOfUnitPrice",
-    "store": "store",
-  };
+  async function fetchAndPopulateItems() {
+    const statusMessage = document.getElementById("status-message");
 
-  if (latest) {
-    for (const [id, key] of Object.entries(fieldMap)) {
-      document.getElementById(id).textContent = latest[key] ?? "--";
-    }
-  } else {
-    for (const id of Object.keys(fieldMap)) {
-      document.getElementById(id).textContent = "--";
+    try {
+      const response = await fetch("/api/fetchData", { method: "POST" });
+      const data = await response.json();
+      allItems = data;
+
+      console.log("取得データ:", data);
+
+      populateItemSelect();
+      populateInputSelects(); // ← 追加
+
+      statusMessage.style.display = "none";
+
+      document.getElementById("item-select").addEventListener("change", updateTableDisplay);
+      document.getElementById("sale-toggle").addEventListener("change", updateTableDisplay);
+    } catch (error) {
+      console.error("データ取得エラー:", error);
+      statusMessage.textContent = "⚠️ データ取得に失敗しました";
     }
   }
-}
 
+  function populateItemSelect() {
+    const displayItemSelect = document.getElementById("item-select");
+    const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
+    displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+    uniqueItems.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      displayItemSelect.appendChild(option);
+    });
+  }
 
-//入力関係
- const inputContent = document.getElementById("input-content");
+  function populateInputSelects() {
+    // 項目セレクト
+    const inputItemSelect = document.getElementById("input-item-select");
+    const uniqueItemNames = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
+    inputItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+    uniqueItemNames.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      inputItemSelect.appendChild(option);
+    });
+    const newOption = document.createElement("option");
+    newOption.value = "__new__";
+    newOption.textContent = "＋ 新規追加";
+    inputItemSelect.appendChild(newOption);
+
+    // お店セレクト
+    const inputStoreSelect = document.getElementById("input-store-select");
+    const uniqueStores = [...new Set(allItems.map(item => item.store).filter(Boolean))];
+    inputStoreSelect.innerHTML = '<option value="">-- お店を選択 --</option>';
+    uniqueStores.forEach(store => {
+      const option = document.createElement("option");
+      option.value = store;
+      option.textContent = store;
+      inputStoreSelect.appendChild(option);
+    });
+    const newStoreOption = document.createElement("option");
+    newStoreOption.value = "__new__";
+    newStoreOption.textContent = "＋ 新規追加";
+    inputStoreSelect.appendChild(newStoreOption);
+  }
+
+  function updateTableDisplay() {
+    const selectedItem = document.getElementById("item-select").value;
+    const saleOnly = document.getElementById("sale-toggle").checked;
+
+    const filtered = allItems.filter(item => {
+      const nameMatches = item.itemName === selectedItem;
+      const saleMatches = saleOnly ? item.sale === true : item.sale !== true;
+      return nameMatches && saleMatches;
+    });
+
+    const latest = filtered[filtered.length - 1];
+
+    const fieldMap = {
+      "item-name": "itemName",
+      "content": "content",
+      "unit": "unit",
+      "count": "count",
+      "price-before-tax": "priceBeforeTax",
+      "price-taxed": "priceTaxed",
+      "unit-price": "unitPrice",
+      "unit-of-unit-price": "unitOfUnitPrice",
+      "store": "store",
+    };
+
+    if (latest) {
+      for (const [id, key] of Object.entries(fieldMap)) {
+        document.getElementById(id).textContent = latest[key] ?? "--";
+      }
+    } else {
+      for (const id of Object.keys(fieldMap)) {
+        document.getElementById(id).textContent = "--";
+      }
+    }
+  }
+
+  // 入力取得
+  const inputContent = document.getElementById("input-content");
   const inputCount = document.getElementById("input-count");
   const inputPrice = document.getElementById("input-price");
   const unitPriceField = document.getElementById("calculated-unit-price");
@@ -202,13 +233,13 @@
   const inputStoreSelect = document.getElementById("input-store-select");
   const newStoreWrapper = document.getElementById("new-store-wrapper");
 
-  // 税抜→税込（10%）関数
+  // 税抜→税込（10%）
   function calculateTaxIncluded(price, isTaxBefore) {
     return isTaxBefore ? Math.round(price * 1.1) : price;
   }
 
-  // 単価の計算
-  function updateUnitPrice() {
+  // 単価計算（ボタン用）
+  function updateUnitPriceFromButton() {
     const content = parseFloat(inputContent.value);
     const count = parseFloat(inputCount.value);
     const price = parseFloat(inputPrice.value);
@@ -218,46 +249,36 @@
       const totalAmount = count * content;
       const taxedPrice = calculateTaxIncluded(price, taxMode === "before");
       const unitPrice = taxedPrice / totalAmount;
-      unitPriceField.value = `${unitPrice.toFixed(2)} 円 / ${inputUnit.value || "単位"}`;
+      unitPriceField.value = unitPrice.toFixed(2);
     } else {
       unitPriceField.value = "";
     }
   }
 
-  // イベント登録（自動計算）
-  inputContent.addEventListener("input", updateUnitPrice);
-  inputCount.addEventListener("input", updateUnitPrice);
-  inputPrice.addEventListener("input", updateUnitPrice);
+  // 🧮ボタンで計算
+  document.getElementById("calculate-btn").addEventListener("click", updateUnitPriceFromButton);
+
+  // 入力変化でも自動計算
+  function triggerCalculateButton() {
+    document.getElementById("calculate-btn").click();
+  }
+
+  inputContent.addEventListener("input", triggerCalculateButton);
+  inputCount.addEventListener("input", triggerCalculateButton);
+  inputPrice.addEventListener("input", triggerCalculateButton);
   document.querySelectorAll('input[name="tax-mode"]').forEach(radio => {
-    radio.addEventListener("change", updateUnitPrice);
+    radio.addEventListener("change", triggerCalculateButton);
   });
 
-  // 新規項目入力欄の表示切替
+  // 新規項目・お店の欄を切り替え
   inputItemSelect.addEventListener("change", () => {
     newItemWrapper.style.display = inputItemSelect.value === "__new__" ? "block" : "none";
   });
-
-  // 新規お店入力欄の表示切替
   inputStoreSelect.addEventListener("change", () => {
     newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
   });
+</script>
 
-// 下の入力欄：自動計算対応イベント
-inputContent.addEventListener("input", triggerCalculateButton);
-inputCount.addEventListener("input", triggerCalculateButton);
-inputPrice.addEventListener("input", triggerCalculateButton);
-document.querySelectorAll('input[name="tax-mode"]').forEach(radio => {
-  radio.addEventListener("change", triggerCalculateButton);
-});
-
-// 計算ボタン押下と同じ処理を呼び出す関数
-function triggerCalculateButton() {
-  document.getElementById("calculate-btn").click();
-}
-
-
-
-  </script>
 
 
 </body>
