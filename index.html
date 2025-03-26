@@ -243,6 +243,22 @@
     newStoreWrapper.style.display = inputStoreSelect.value === "__new__" ? "block" : "none";
   });
 
+// 🧮 単価を計算ボタンのクリックイベント
+document.getElementById("calculate-btn").addEventListener("click", () => {
+  const content = parseFloat(inputContent.value);
+  const count = parseFloat(inputCount.value);
+  const price = parseFloat(inputPrice.value);
+  const taxMode = document.querySelector('input[name="tax-mode"]:checked').value;
+
+  if (!isNaN(content) && !isNaN(count) && !isNaN(price) && content > 0 && count > 0) {
+    const totalAmount = count * content;
+    const taxedPrice = calculateTaxIncluded(price, taxMode === "before");
+    const unitPrice = taxedPrice / totalAmount;
+    unitPriceField.value = unitPrice.toFixed(2); // 単位を表示しない
+  } else {
+    unitPriceField.value = "";
+  }
+});
 
 
 
