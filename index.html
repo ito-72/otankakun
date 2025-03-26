@@ -91,39 +91,43 @@
     }
 
     function updateTableDisplay() {
-      const selectedItem = document.getElementById("item-select").value;
-      const saleOnly = document.getElementById("sale-toggle").checked;
+  const selectedItem = document.getElementById("item-select").value;
+  const saleOnly = document.getElementById("sale-toggle").checked;
 
-      let filtered = allItems.filter(item => item.itemName === selectedItem);
+  let filtered = allItems.filter(item => item.itemName === selectedItem);
 
-      if (saleOnly) {
-        filtered = filtered.filter(item => item.sale === "○"); // ← A列の値が ○ の行のみ
-      }
+  if (saleOnly) {
+    filtered = filtered.filter(item => item.sale === true); // ← ここを修正
+  }
 
-      const latest = filtered[filtered.length - 1]; // 最新の1件を取得（最終行）
+  const latest = filtered[filtered.length - 1];
 
-      const fieldMap = {
-        "item-name": "itemName",
-        "content": "content",
-        "unit": "unit",
-        "count": "count",
-        "price-before-tax": "priceBeforeTax",
-        "price-taxed": "priceTaxed",
-        "unit-price": "unitPrice",
-        "unit-of-unit-price": "unitOfUnitPrice",
-        "store": "store",
-      };
+  const fieldMap = {
+    "item-name": "itemName",
+    "content": "content",
+    "unit": "unit",
+    "count": "count",
+    "price-before-tax": "priceBeforeTax",
+    "price-taxed": "priceTaxed",
+    "unit-price": "unitPrice",
+    "unit-of-unit-price": "unitOfUnitPrice",
+    "store": "store",
+  };
 
-      if (latest) {
-        for (const [id, key] of Object.entries(fieldMap)) {
-          document.getElementById(id).textContent = latest[key] ?? "--";
-        }
-      } else {
-        for (const id of Object.keys(fieldMap)) {
-          document.getElementById(id).textContent = "--";
-        }
-      }
+  if (latest) {
+    for (const [id, key] of Object.entries(fieldMap)) {
+      document.getElementById(id).textContent = latest[key] ?? "--";
     }
+  } else {
+    for (const id of Object.keys(fieldMap)) {
+      document.getElementById(id).textContent = "--";
+    }
+  }
+}
+
+
   </script>
+
+
 </body>
 </html>
