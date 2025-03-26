@@ -3,7 +3,7 @@
 let allItems = []; // 取得した全データを保持
 
 // HTML要素の参照
-const itemSelect = document.getElementById("item-select");
+const displayItemSelect = document.getElementById("item-select");
 const saleToggle = document.getElementById("sale-toggle");
 
 // 表示欄のIDとスプレッド対応キーのマッピング
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateDisplay();      // 初期表示
 
     // イベントリスナー登録（選択 or セール切り替え）
-    itemSelect.addEventListener("change", updateDisplay);
+    displayItemSelect.addEventListener("change", updateDisplay);
     saleToggle.addEventListener("change", updateDisplay);
 
   } catch (error) {
@@ -41,18 +41,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ✅ ステップ② 商品一覧を select に追加
 function populateItemSelect() {
   const uniqueItems = [...new Set(allItems.map(item => item.itemName))];
-  itemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+  displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
   uniqueItems.forEach(name => {
     const option = document.createElement("option");
     option.value = name;
     option.textContent = name;
-    itemSelect.appendChild(option);
+    displayItemSelect.appendChild(option);
   });
 }
 
 // ✅ ステップ③ 表示欄を更新（最新の1件を選ぶ）
 function updateDisplay() {
-  const selectedItem = itemSelect.value;
+  const selectedItem = displayItemSelect.value;
   const saleOnly = saleToggle.checked;
 
   // 選択された項目に該当する行だけを抽出
