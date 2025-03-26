@@ -94,11 +94,13 @@
   const selectedItem = document.getElementById("item-select").value;
   const saleOnly = document.getElementById("sale-toggle").checked;
 
-  let filtered = allItems.filter(item => item.itemName === selectedItem);
+  let filtered = allItems;
 
   if (saleOnly) {
-    filtered = filtered.filter(item => item.sale === true); // ← ここを修正
+    filtered = filtered.filter(item => item.sale === true);
   }
+
+  filtered = filtered.filter(item => item.itemName === selectedItem);
 
   const latest = filtered[filtered.length - 1];
 
