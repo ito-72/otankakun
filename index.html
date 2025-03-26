@@ -1,89 +1,38 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>単価比較アプリ</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- 上部エリア -->
-  <div class="section top-section">
-    <button id="fetch-button">取得</button>
+<!-- 表示欄テーブル：スプレッドの列順に並べた表示専用 -->
+<div class="section middle-section">
+  <div class="controls">
+    <label><input type="checkbox" id="sale-toggle" /> セール中</label>
+    <select id="item-select">
+      <option value="">-- 項目を選択 --</option>
+    </select>
   </div>
 
-  <!-- 中部エリア -->
-  <div class="section middle-section">
-    <div class="controls">
-      <label><input type="checkbox" id="sale-toggle" /> セール中</label>
-      <select id="item-select">
-        <option>トイレットペーパー</option>
-        <option>ティッシュ</option>
-        <!-- 他の登録項目も追加 -->
-      </select>
-    </div>
-    <table class="item-table">
-      <thead>
-        <tr>
-          <th>単価</th><th>内容</th><th>単位</th><th>個数</th><th>金額</th><th>個数</th>
-        </tr>
-      </thead>
-      <tbody id="item-data">
-        <tr>
-          <td id="unit-price">--</td>
-          <td id="content-amount">--</td>
-          <td id="unit">--</td>
-          <td id="count">--</td>
-          <td id="price">--</td>
-          <td id="count-again">--</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- 下部エリア -->
-  <div class="section bottom-section">
-    <form id="input-form">
-      <label><input type="checkbox" id="input-sale" /> セール</label>
-      <select id="input-item-select">
-        <option value="">-- 項目を選択 --</option>
-        <option value="トイレットペーパー">トイレットペーパー</option>
-        <option value="ティッシュ">ティッシュ</option>
-        <option value="__new__">＋ 新規登録</option>
-      </select>
-      <input type="text" placeholder="新しい項目を入力" id="input-item-text" style="display: none;" />
-      <input type="number" placeholder="内容" id="input-amount" required />
-      <input type="text" placeholder="単位" id="input-unit" required />
-      <input type="number" placeholder="個数" id="input-count" required />
-      <input type="number" placeholder="金額" id="input-price" required />
-      <input type="text" placeholder="お店名" id="input-store" />
-      <div style="width: 100%; margin-top: 0.5em;">
-        <button type="submit">登録</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- 最下層エリア -->
-  <div class="section comparison-section">
-    <p>登録済みの単価：<span id="existing-unit-price">--</span></p>
-    <p>今回入力の単価：<span id="current-unit-price">--</span></p>
-    <p id="comparison-result"></p>
-  </div>
-
-  <script>
-    // 新規登録切り替え処理
-    const itemSelect = document.getElementById('input-item-select');
-    const itemText = document.getElementById('input-item-text');
-
-    itemSelect.addEventListener('change', () => {
-      if (itemSelect.value === '__new__') {
-        itemText.style.display = 'block';
-      } else {
-        itemText.style.display = 'none';
-      }
-    });
-  </script>
-  <script src="main.js"></script>
-</body>
-</html>
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>内容</th>
+        <th>単位</th>
+        <th>個数</th>
+        <th>税抜き</th>
+        <th>税込み</th>
+        <th>単価</th>
+        <th>単価の単位</th>
+        <th>お店</th>
+      </tr>
+    </thead>
+    <tbody id="item-data">
+      <tr>
+        <td id="item-name">--</td>
+        <td id="content-amount">--</td>
+        <td id="unit">--</td>
+        <td id="count">--</td>
+        <td id="price-before-tax">--</td>
+        <td id="price-taxed">--</td>
+        <td id="unit-price">--</td>
+        <td id="unit-of-unit-price">--</td>
+        <td id="store">--</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
