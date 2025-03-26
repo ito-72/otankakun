@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>商品一覧</title>
+  <title>商品セレクター</title>
 </head>
 <body>
   <h1>商品セレクター</h1>
+
+  <!-- 取得ボタン -->
+  <button id="fetch-button">項目を取得</button>
+  <p id="status-message"></p>
 
   <!-- セール + 選択セレクト -->
   <div>
@@ -17,11 +21,13 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const saleToggle = document.getElementById("sale-toggle");
-      const displayItemSelect = document.getElementById("item-select");
-      let allItems = [];
+    const fetchButton = document.getElementById("fetch-button");
+    const statusMessage = document.getElementById("status-message");
+    const saleToggle = document.getElementById("sale-toggle");
+    const displayItemSelect = document.getElementById("item-select");
+    let allItems = [];
 
+    fetchButton.addEventListener("click", async () => {
       try {
         const response = await fetch("/api/fetchData", {
           method: "POST",
@@ -29,24 +35,26 @@
         const data = await response.json();
         allItems = data;
 
-        console.log("取得したデータ:", data);
+        console.log("取得データ:", data);
 
+        statusMessage.textContent = "✅ 取得しました！";
         populateItemSelect();
       } catch (error) {
         console.error("データ取得エラー:", error);
-      }
-
-      function populateItemSelect() {
-        const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
-        displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
-        uniqueItems.forEach(name => {
-          const option = document.createElement("option");
-          option.value = name;
-          option.textContent = name;
-          displayItemSelect.appendChild(option);
-        });
+        statusMessage.textContent = "⚠️ データ取得に失敗しました";
       }
     });
+
+    function populateItemSelect() {
+      const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
+      displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+      uniqueItems.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        displayItemSelect.appendChild(option);
+      });
+    }
   </script>
 </body>
 </html>
