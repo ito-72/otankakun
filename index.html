@@ -90,17 +90,16 @@
       });
     }
 
-    function updateTableDisplay() {
+   function updateTableDisplay() {
   const selectedItem = document.getElementById("item-select").value;
   const saleOnly = document.getElementById("sale-toggle").checked;
 
-  let filtered = allItems;
-
-  if (saleOnly) {
-    filtered = filtered.filter(item => item.sale === true);
-  }
-
-  filtered = filtered.filter(item => item.itemName === selectedItem);
+  // 「セールの有無」と「選択された項目名」の両方でフィルター
+  const filtered = allItems.filter(item => {
+    const nameMatches = item.itemName === selectedItem;
+    const saleMatches = saleOnly ? item.sale === true : item.sale !== true;
+    return nameMatches && saleMatches;
+  });
 
   const latest = filtered[filtered.length - 1];
 
@@ -126,6 +125,7 @@
     }
   }
 }
+
 
 
   </script>
