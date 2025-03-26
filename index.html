@@ -6,57 +6,123 @@
   <title>商品セレクター</title>
 </head>
 <body>
-  <h1>商品セレクター</h1>
+  <div style="display: flex; align-items: center; gap: 1em;">
+    <h1>商品セレクター</h1>
+    <p id="status-message">🔄 読み込み中...</p>
+  </div>
 
-  <!-- ステータスメッセージ -->
-  <p id="status-message">🔄 読み込み中...</p>
-
-  <!-- 表示用セクション（常に表示） -->
-  <div id="main-ui">
+  <div>
     <label><input type="checkbox" id="sale-toggle" /> セール中</label>
     <select id="item-select">
       <option value="">-- 項目を選択 --</option>
     </select>
   </div>
 
+  <!-- 表示用テーブル -->
+  <table border="1" style="margin-top: 1em; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>内容</th>
+        <th>単位</th>
+        <th>個数</th>
+        <th>税抜き</th>
+        <th>税込み</th>
+        <th>単価</th>
+        <th>単価の単位</th>
+        <th>お店</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="item-name">--</td>
+        <td id="content">--</td>
+        <td id="unit">--</td>
+        <td id="count">--</td>
+        <td id="price-before-tax">--</td>
+        <td id="price-taxed">--</td>
+        <td id="unit-price">--</td>
+        <td id="unit-of-unit-price">--</td>
+        <td id="store">--</td>
+      </tr>
+    </tbody>
+  </table>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       fetchAndPopulateItems();
     });
 
+    let allItems = [];
+
     async function fetchAndPopulateItems() {
       const statusMessage = document.getElementById("status-message");
-      const displayItemSelect = document.getElementById("item-select");
-      let allItems = [];
 
       try {
-        const response = await fetch("/api/fetchData", {
-          method: "POST",
-        });
+        const response = await fetch("/api/fetchData", { method: "POST" });
         const data = await response.json();
         allItems = data;
 
         console.log("取得データ:", data);
 
-        populateItemSelect(allItems, displayItemSelect);
+        populateItemSelect();
 
-        // 読み込み中の表示だけ非表示に
         statusMessage.style.display = "none";
+
+        // セレクト変更 or セール切替で表示更新
+        document.getElementById("item-select").addEventListener("change", updateTableDisplay);
+        document.getElementById("sale-toggle").addEventListener("change", updateTableDisplay);
       } catch (error) {
         console.error("データ取得エラー:", error);
         statusMessage.textContent = "⚠️ データ取得に失敗しました";
       }
     }
 
-    function populateItemSelect(allItems, selectElement) {
+    function populateItemSelect() {
+      const displayItemSelect = document.getElementById("item-select");
       const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
-      selectElement.innerHTML = '<option value="">-- 項目を選択 --</option>';
+      displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
       uniqueItems.forEach(name => {
         const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
-        selectElement.appendChild(option);
+        displayItemSelect.appendChild(option);
       });
+    }
+
+    function updateTableDisplay() {
+      const selectedItem = document.getElementById("item-select").value;
+      const saleOnly = document.getElementById("sale-toggle").checked;
+
+      let filtered = allItems.filter(item => item.itemName === selectedItem);
+
+      if (saleOnly) {
+        filtered = filtered.filter(item => item.sale === "○"); // ← A列の値が ○ の行のみ
+      }
+
+      const latest = filtered[filtered.length - 1]; // 最新の1件を取得（最終行）
+
+      const fieldMap = {
+        "item-name": "itemName",
+        "content": "content",
+        "unit": "unit",
+        "count": "count",
+        "price-before-tax": "priceBeforeTax",
+        "price-taxed": "priceTaxed",
+        "unit-price": "unitPrice",
+        "unit-of-unit-price": "unitOfUnitPrice",
+        "store": "store",
+      };
+
+      if (latest) {
+        for (const [id, key] of Object.entries(fieldMap)) {
+          document.getElementById(id).textContent = latest[key] ?? "--";
+        }
+      } else {
+        for (const id of Object.keys(fieldMap)) {
+          document.getElementById(id).textContent = "--";
+        }
+      }
     }
   </script>
 </body>
