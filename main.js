@@ -26,17 +26,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
     allItems = data;
 
+    console.log("取得データ", data); // ←① ここを確認！
+
     populateItemSelect(); // ステップ② 商品一覧を生成
     updateDisplay();      // 初期表示
 
-    // イベントリスナー登録（選択 or セール切り替え）
+    // イベントリスナー登録
     displayItemSelect.addEventListener("change", updateDisplay);
     saleToggle.addEventListener("change", updateDisplay);
 
   } catch (error) {
-    console.error("データ取得エラー:", error);
+    console.error("データ取得エラー:", error); // ←② 失敗してたらここに出る
   }
 });
+
 
 // ✅ ステップ② 商品一覧を select に追加
 function populateItemSelect() {
