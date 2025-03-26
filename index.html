@@ -28,7 +28,7 @@
         <th>個数（内容量のものがいくつあるか）</th>
         <th>税抜き</th>
         <th>税込み</th>
-        <th>単価</th>
+        <th>単価（税込み）</th>
         <th>単価の単位</th>
         <th>お店</th>
       </tr>
@@ -74,6 +74,7 @@
   </tbody>
 </table>
 
+<button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
 
 <table border="1" style="margin-top: 1em; border-collapse: collapse;">
   <thead>
@@ -243,6 +244,9 @@
   });
 
 
+document.getElementById("calculate-btn").addEventListener("click", () => {
+  updateUnitPrice();
+});
 
 
   </script>
