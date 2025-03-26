@@ -82,19 +82,85 @@
 
   <!-- 新規登録切り替えスクリプト -->
   <script>
-    const itemSelect = document.getElementById('input-item-select');
-    const itemText = document.getElementById('input-item-text');
+  document.addEventListener("DOMContentLoaded", async () => {
+    const displayItemSelect = document.getElementById("item-select");
+    const saleToggle = document.getElementById("sale-toggle");
+    const inputItemSelect = document.getElementById("input-item-select");
+    const itemText = document.getElementById("input-item-text");
 
-    itemSelect.addEventListener('change', () => {
-      if (itemSelect.value === '__new__') {
-        itemText.style.display = 'block';
+    // 入力用セレクトの新規切り替え
+    inputItemSelect.addEventListener("change", () => {
+      if (inputItemSelect.value === "__new__") {
+        itemText.style.display = "block";
       } else {
-        itemText.style.display = 'none';
+        itemText.style.display = "none";
       }
     });
-  </script>
 
-  <!-- メイン処理スクリプト -->
-  <script src="main.js"></script>
+    let allItems = [];
+
+    const fieldMap = {
+      "item-name": "itemName",
+      "content-amount": "content",
+      "unit": "unit",
+      "count": "count",
+      "price-before-tax": "priceBeforeTax",
+      "price-taxed": "priceTaxed",
+      "unit-price": "unitPrice",
+      "unit-of-unit-price": "unitOfUnitPrice",
+      "store": "store",
+    };
+
+    try {
+      const response = await fetch("/api/fetchData", { method: "POST" });
+      const data = await response.json();
+      allItems = data;
+
+      console.log("取得データ", data);
+
+      populateItemSelect();
+      updateDisplay();
+
+      displayItemSelect.addEventListener("change", updateDisplay);
+      saleToggle.addEventListener("change", updateDisplay);
+    } catch (error) {
+      console.error("データ取得エラー:", error);
+    }
+
+    function populateItemSelect() {
+      const uniqueItems = [...new Set(allItems.map(item => item.itemName))];
+      displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+      uniqueItems.forEach(name => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        displayItemSelect.appendChild(option);
+      });
+    }
+
+    function updateDisplay() {
+      const selectedItem = displayItemSelect.value;
+      const saleOnly = saleToggle.checked;
+
+      let filtered = allItems.filter(item => item.itemName === selectedItem);
+      if (saleOnly) {
+        filtered = filtered.filter(item => item.sale === "○");
+      }
+
+      const latest = filtered[filtered.length - 1];
+
+      if (latest) {
+        for (const [id, key] of Object.entries(fieldMap)) {
+          document.getElementById(id).textContent = latest[key] ?? "--";
+        }
+      } else {
+        for (const id of Object.keys(fieldMap)) {
+          document.getElementById(id).textContent = "--";
+        }
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
