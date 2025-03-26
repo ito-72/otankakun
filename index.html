@@ -3,164 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>単価比較アプリ</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>商品一覧</title>
 </head>
 <body>
+  <h1>商品セレクター</h1>
 
-  <!-- 上部エリア（取得ボタン削除済） -->
-  <div class="section top-section">
-    <!-- 削除: <button id="fetch-button">取得</button> -->
+  <!-- セール + 選択セレクト -->
+  <div>
+    <label><input type="checkbox" id="sale-toggle" /> セール中</label>
+    <select id="item-select">
+      <option value="">-- 項目を選択 --</option>
+    </select>
   </div>
 
-  <!-- 中部エリア：表示欄 + 選択 -->
-  <div class="section middle-section">
-    <div class="controls">
-      <label><input type="checkbox" id="sale-toggle" /> セール中</label>
-      <select id="item-select">
-        <option value="">-- 項目を選択 --</option>
-      </select>
-    </div>
-    <table class="item-table">
-      <thead>
-        <tr>
-          <th>項目</th>
-          <th>内容</th>
-          <th>単位</th>
-          <th>個数</th>
-          <th>税抜き</th>
-          <th>税込み</th>
-          <th>単価</th>
-          <th>単価の単位</th>
-          <th>お店</th>
-        </tr>
-      </thead>
-      <tbody id="item-data">
-        <tr>
-          <td id="item-name">--</td>
-          <td id="content-amount">--</td>
-          <td id="unit">--</td>
-          <td id="count">--</td>
-          <td id="price-before-tax">--</td>
-          <td id="price-taxed">--</td>
-          <td id="unit-price">--</td>
-          <td id="unit-of-unit-price">--</td>
-          <td id="store">--</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- 下部エリア：登録フォーム -->
-  <div class="section bottom-section">
-    <form id="input-form">
-      <label><input type="checkbox" id="input-sale" /> セール</label>
-      <select id="input-item-select">
-        <option value="">-- 項目を選択 --</option>
-        <option value="トイレットペーパー">トイレットペーパー</option>
-        <option value="ティッシュ">ティッシュ</option>
-        <option value="__new__">＋ 新規登録</option>
-      </select>
-      <input type="text" placeholder="新しい項目を入力" id="input-item-text" style="display: none;" />
-      <input type="number" placeholder="内容" id="input-amount" required />
-      <input type="text" placeholder="単位" id="input-unit" required />
-      <input type="number" placeholder="個数" id="input-count" required />
-      <input type="number" placeholder="金額" id="input-price" required />
-      <input type="text" placeholder="お店名" id="input-store" />
-      <div style="width: 100%; margin-top: 0.5em;">
-        <button type="submit">登録</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- 最下層エリア：単価比較欄 -->
-  <div class="section comparison-section">
-    <p>登録済みの単価：<span id="existing-unit-price">--</span></p>
-    <p>今回入力の単価：<span id="current-unit-price">--</span></p>
-    <p id="comparison-result"></p>
-  </div>
-
-  <!-- 新規登録切り替えスクリプト -->
   <script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    const displayItemSelect = document.getElementById("item-select");
-    const saleToggle = document.getElementById("sale-toggle");
-    const inputItemSelect = document.getElementById("input-item-select");
-    const itemText = document.getElementById("input-item-text");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const saleToggle = document.getElementById("sale-toggle");
+      const displayItemSelect = document.getElementById("item-select");
+      let allItems = [];
 
-    // 入力用セレクトの新規切り替え
-    inputItemSelect.addEventListener("change", () => {
-      if (inputItemSelect.value === "__new__") {
-        itemText.style.display = "block";
-      } else {
-        itemText.style.display = "none";
+      try {
+        const response = await fetch("/api/fetchData", {
+          method: "POST",
+        });
+        const data = await response.json();
+        allItems = data;
+
+        console.log("取得したデータ:", data);
+
+        populateItemSelect();
+      } catch (error) {
+        console.error("データ取得エラー:", error);
+      }
+
+      function populateItemSelect() {
+        const uniqueItems = [...new Set(allItems.map(item => item.itemName).filter(Boolean))];
+        displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
+        uniqueItems.forEach(name => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          displayItemSelect.appendChild(option);
+        });
       }
     });
-
-    let allItems = [];
-
-    const fieldMap = {
-      "item-name": "itemName",
-      "content-amount": "content",
-      "unit": "unit",
-      "count": "count",
-      "price-before-tax": "priceBeforeTax",
-      "price-taxed": "priceTaxed",
-      "unit-price": "unitPrice",
-      "unit-of-unit-price": "unitOfUnitPrice",
-      "store": "store",
-    };
-
-    try {
-      const response = await fetch("/api/fetchData", { method: "POST" });
-      const data = await response.json();
-      allItems = data;
-
-      console.log("取得データ", data);
-
-      populateItemSelect();
-      updateDisplay();
-
-      displayItemSelect.addEventListener("change", updateDisplay);
-      saleToggle.addEventListener("change", updateDisplay);
-    } catch (error) {
-      console.error("データ取得エラー:", error);
-    }
-
-    function populateItemSelect() {
-      const uniqueItems = [...new Set(allItems.map(item => item.itemName))];
-      displayItemSelect.innerHTML = '<option value="">-- 項目を選択 --</option>';
-      uniqueItems.forEach(name => {
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        displayItemSelect.appendChild(option);
-      });
-    }
-
-    function updateDisplay() {
-      const selectedItem = displayItemSelect.value;
-      const saleOnly = saleToggle.checked;
-
-      let filtered = allItems.filter(item => item.itemName === selectedItem);
-      if (saleOnly) {
-        filtered = filtered.filter(item => item.sale === "○");
-      }
-
-      const latest = filtered[filtered.length - 1];
-
-      if (latest) {
-        for (const [id, key] of Object.entries(fieldMap)) {
-          document.getElementById(id).textContent = latest[key] ?? "--";
-        }
-      } else {
-        for (const id of Object.keys(fieldMap)) {
-          document.getElementById(id).textContent = "--";
-        }
-      }
-    }
-  });
-</script>
-
+  </script>
 </body>
 </html>
