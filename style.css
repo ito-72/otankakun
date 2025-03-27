@@ -1,46 +1,9 @@
-
-/* 背景カラーブロック固定配置（SVG不要でCSSだけ） */
 body {
   background-color: #ffffff;
   position: relative;
   overflow-x: hidden;
 }
 
-/* 左上のレインボーブロック風 */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 180px;
-  height: 180px;
-  background:
-    radial-gradient(circle at 40px 40px, #ffeb3b 0 30px, transparent 31px),
-    radial-gradient(circle at 60px 60px, #4caf50 0 30px, transparent 31px),
-    radial-gradient(circle at 80px 80px, #2196f3 0 30px, transparent 31px),
-    radial-gradient(circle at 100px 100px, #e91e63 0 30px, transparent 31px);
-  z-index: -1;
-}
-
-/* 右下のレインボーブロック風 */
-body::after {
-  content: "";
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 180px;
-  height: 180px;
-  background:
-    radial-gradient(circle at 140px 140px, #ffeb3b 0 30px, transparent 31px),
-    radial-gradient(circle at 120px 120px, #4caf50 0 30px, transparent 31px),
-    radial-gradient(circle at 100px 100px, #2196f3 0 30px, transparent 31px),
-    radial-gradient(circle at 80px 80px, #e91e63 0 30px, transparent 31px);
-  z-index: -1;
-}
-
-
-
-/* 中央寄せ＋幅制限 */
 .container {
   max-width: 480px;
   margin: 0 auto;
@@ -48,24 +11,21 @@ body::after {
   box-sizing: border-box;
 }
 
-/* 表示セクション（上側） */
 .display-section {
-  background-color: #e0f7fa; /* 水色系 */
+  background-color: #e0f7fa;
   border-radius: 16px;
   padding: 1em;
   margin-bottom: 1.5em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 入力セクション（下側） */
 .input-section {
-  background-color: #ffe4f2; /* ピンク系 */
+  background-color: #ffe4f2;
   border-radius: 16px;
   padding: 1em;
   margin-bottom: 2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .form-row {
   display: flex;
@@ -97,12 +57,8 @@ body::after {
   flex-wrap: wrap;
 }
 
-
-
 select {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background-color: #fff;
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -115,9 +71,8 @@ select {
   background-size: 1em;
 }
 
-
 button {
-  background-color: #ff4081; /* ピンク系 */
+  background-color: #ff4081;
   color: white;
   border: none;
   padding: 0.6em 1.2em;
@@ -133,24 +88,19 @@ button:hover {
   background-color: #f50057;
 }
 
-
-/* スイッチ全体 */
 .switch {
   position: relative;
   display: inline-block;
-  width: 36px;
-  height: 20px;
+  width: 46px;
+  height: 26px;
 }
 
-
-/* チェックボックス非表示 */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* スライダー（丸） */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -166,20 +116,19 @@ button:hover {
 .slider::before {
   content: "";
   position: absolute;
-  height: 16px;
-  width: 16px;
-  left: 2px;
-  top: 2px;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  top: 3px;
   background-color: white;
   border-radius: 50%;
   transition: 0.3s;
 }
 
-/* ON状態 */
 .switch input:checked + .slider {
   background-color: #4caf50;
 }
 
 .switch input:checked + .slider::before {
-  transform: translateX(16px);
+  transform: translateX(20px);
 }
