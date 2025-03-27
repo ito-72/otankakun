@@ -19,15 +19,13 @@
       </div>
 
 
-<div class="form-row">
-  <label for="input-sale">セール中</label>
-  <label class="switch">
-    <input type="checkbox" id="input-sale" />
-    <span class="slider"></span>
-  </label>
-</div>
 
-
+      <div>
+        <label><input type="checkbox" id="sale-toggle" /> セール中</label>
+        <select id="item-select">
+          <option value="">-- 項目を選択 --</option>
+        </select>
+      </div>
 
 
       <!-- 表示用テーブル -->
@@ -101,12 +99,8 @@
     <!-- 🔵 セール中 -->
 <div class="form-row">
   <label for="input-sale">セール中</label>
-  <label class="switch">
-    <input type="checkbox" id="input-sale" />
-    <span class="slider"></span>
-  </label>
+  <input type="checkbox" id="input-sale" />
 </div>
-
 
 <!-- 🔵 項目 -->
 <div class="form-row">
