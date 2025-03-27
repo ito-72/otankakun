@@ -1,26 +1,44 @@
-/* 全体の背景・図形風デコ */
+
+/* 背景カラーブロック固定配置（SVG不要でCSSだけ） */
 body {
-  background-color: #fefefe;
-  margin: 0;
-  padding: 0;
-  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #ffffff;
   position: relative;
   overflow-x: hidden;
 }
 
-/* カラフルな背景ブロック（ahamo風） */
+/* 左上のレインボーブロック風 */
 body::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  width: 200%;
-  height: 300px;
-  background: linear-gradient(45deg, #5ed3f3, #f08080, #b19cd9, #98fb98);
-  transform: rotate(-5deg);
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: 180px;
+  background:
+    radial-gradient(circle at 40px 40px, #ffeb3b 0 30px, transparent 31px),
+    radial-gradient(circle at 60px 60px, #4caf50 0 30px, transparent 31px),
+    radial-gradient(circle at 80px 80px, #2196f3 0 30px, transparent 31px),
+    radial-gradient(circle at 100px 100px, #e91e63 0 30px, transparent 31px);
   z-index: -1;
-  opacity: 0.3;
 }
+
+/* 右下のレインボーブロック風 */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 180px;
+  height: 180px;
+  background:
+    radial-gradient(circle at 140px 140px, #ffeb3b 0 30px, transparent 31px),
+    radial-gradient(circle at 120px 120px, #4caf50 0 30px, transparent 31px),
+    radial-gradient(circle at 100px 100px, #2196f3 0 30px, transparent 31px),
+    radial-gradient(circle at 80px 80px, #e91e63 0 30px, transparent 31px);
+  z-index: -1;
+}
+
+
 
 /* 中央寄せ＋幅制限 */
 .container {
