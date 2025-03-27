@@ -65,3 +65,30 @@ body::after {
   margin-bottom: 2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  margin-bottom: 0.8em;
+}
+
+.form-row label {
+  width: 6em;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.form-row input[type="number"],
+.form-row input[type="text"] {
+  flex: 1;
+  font-size: 1em;
+  padding: 0.4em;
+  box-sizing: border-box;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1em;
+}
