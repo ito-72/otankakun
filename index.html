@@ -5,124 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>商品セレクター</title>
 </head>
+
 <body>
-  <div style="display: flex; align-items: center; gap: 1em;">
-    <h1>商品セレクター</h1>
-    <p id="status-message">🔄 読み込み中...</p>
-  </div>
+  <div class="container">
 
-  <div>
-    <label><input type="checkbox" id="sale-toggle" /> セール中</label>
-    <select id="item-select">
-      <option value="">-- 項目を選択 --</option>
-    </select>
-  </div>
-
-  <!-- 表示用テーブル -->
-  <table border="1" style="margin-top: 1em; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th>項目</th>
-        <th>内容量</th>
-        <th>単位</th>
-        <th>個数（内容量のものがいくつあるか）</th>
-        <th>税抜き</th>
-        <th>税込み</th>
-        <th>単価（税込み）</th>
-        <th>単価の単位</th>
-        <th>お店</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="item-name">--</td>
-        <td id="content">--</td>
-        <td id="unit">--</td>
-        <td id="count">--</td>
-        <td id="price-before-tax">--</td>
-        <td id="price-taxed">--</td>
-        <td id="unit-price">--</td>
-        <td id="unit-of-unit-price">--</td>
-        <td id="store">--</td>
-      </tr>
-    </tbody>
-  </table>
-
-
-<!-- 入力テーブル -->
-<table border="1" style="margin-top: 2em; border-collapse: collapse;">
-  <thead>
-    <tr>
-      <th>内容量</th>
-      <th>個数</th>
-      <th>金額</th>
-      <th>税抜 / 税込</th>
-      <th>単価（税込）</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><input type="number" id="input-content" /></td>
-      <td><input type="number" id="input-count" /></td>
-      <td><input type="number" id="input-price" /></td>
-      <td>
-        <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
-        <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
-      </td>
-      <td><input type="text" id="calculated-unit-price" readonly /></td>
-    </tr>
-  </tbody>
-</table>
-
-<button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
-
-<table border="1" style="margin-top: 1em; border-collapse: collapse;">
-  <thead>
-    <tr>
-      <th>セール中</th>
-      <th>項目</th>
-      <th>単位</th>
-      <th>お店</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><input type="checkbox" id="input-sale" /></td>
-      <td>
-        <select id="input-item-select">
-          <option value="">-- 項目を選択 --</option>
-          <option value="__new__">＋ 新規追加</option>
-        </select>
-        <div id="new-item-wrapper" style="display:none;">
-          <input type="text" id="new-item-name" placeholder="新しい項目名" />
-        </div>
-      </td>
-      <td><input type="text" id="input-unit" /></td>
-      <td>
-        <select id="input-store-select">
-          <option value="">-- お店を選択 --</option>
-          <option value="__new__">＋ 新規追加</option>
-        </select>
-        <div id="new-store-wrapper" style="display:none;">
-          <input type="text" id="new-store-name" placeholder="新しいお店名" />
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<button id="register-btn" style="margin-top: 1em;">📝 登録</button>
-<p id="register-status" style="margin-top: 0.5em; color: green;"></p>
-
- <div class="container">
+    <!-- 表示セクション -->
     <section class="display-section">
-      <!-- 表示系ここ -->
-    </section>
-    <section class="input-section">
-      <!-- 入力系ここ -->
-    </section>
-  </div>
+      <div style="display: flex; align-items: center; gap: 1em;">
+        <h1>商品セレクター</h1>
+        <p id="status-message">🔄 読み込み中...</p>
+      </div>
 
+      <div>
+        <label><input type="checkbox" id="sale-toggle" /> セール中</label>
+        <select id="item-select">
+          <option value="">-- 項目を選択 --</option>
+        </select>
+      </div>
+
+      <!-- 表示用テーブル -->
+      <table border="1" style="margin-top: 1em; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>内容量</th>
+            <th>単位</th>
+            <th>個数（内容量のものがいくつあるか）</th>
+            <th>税抜き</th>
+            <th>税込み</th>
+            <th>単価（税込み）</th>
+            <th>単価の単位</th>
+            <th>お店</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="item-name">--</td>
+            <td id="content">--</td>
+            <td id="unit">--</td>
+            <td id="count">--</td>
+            <td id="price-before-tax">--</td>
+            <td id="price-taxed">--</td>
+            <td id="unit-price">--</td>
+            <td id="unit-of-unit-price">--</td>
+            <td id="store">--</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 入力セクション -->
+    <section class="input-section">
+
+      <!-- 入力テーブル -->
+      <table border="1" style="margin-top: 2em; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>内容量</th>
+            <th>個数</th>
+            <th>金額</th>
+            <th>税抜 / 税込</th>
+            <th>単価（税込）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="number" id="input-content" /></td>
+            <td><input type="number" id="input-count" /></td>
+            <td><input type="number" id="input-price" /></td>
+            <td>
+              <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
+              <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
+            </td>
+            <td><input type="text" id="calculated-unit-price" readonly /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
+
+      <table border="1" style="margin-top: 1em; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>セール中</th>
+            <th>項目</th>
+            <th>単位</th>
+            <th>お店</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox" id="input-sale" /></td>
+            <td>
+              <select id="input-item-select">
+                <option value="">-- 項目を選択 --</option>
+                <option value="__new__">＋ 新規追加</option>
+              </select>
+              <div id="new-item-wrapper" style="display:none;">
+                <input type="text" id="new-item-name" placeholder="新しい項目名" />
+              </div>
+            </td>
+            <td><input type="text" id="input-unit" /></td>
+            <td>
+              <select id="input-store-select">
+                <option value="">-- お店を選択 --</option>
+                <option value="__new__">＋ 新規追加</option>
+              </select>
+              <div id="new-store-wrapper" style="display:none;">
+                <input type="text" id="new-store-name" placeholder="新しいお店名" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button id="register-btn" style="margin-top: 1em;">📝 登録</button>
+      <p id="register-status" style="margin-top: 0.5em; color: green;"></p>
+    </section>
+
+  </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
