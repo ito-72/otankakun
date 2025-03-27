@@ -71,24 +71,28 @@ body::after {
   display: flex;
   align-items: center;
   gap: 0.8em;
-  margin-bottom: 0.8em;
+  margin-bottom: 1em;
 }
 
 .form-row label {
   width: 6em;
   font-weight: bold;
   font-size: 1em;
+  color: #333;
 }
 
 .form-row input[type="number"],
 .form-row input[type="text"] {
   flex: 1;
+  padding: 0.5em;
   font-size: 1em;
-  padding: 0.4em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   box-sizing: border-box;
 }
 
 .radio-group {
   display: flex;
   gap: 1em;
+  flex-wrap: wrap;
 }

@@ -59,30 +59,36 @@
     <!-- 入力セクション -->
     <section class="input-section">
 
-      <!-- 入力テーブル -->
-      <table border="1" style="margin-top: 2em; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th>内容量</th>
-            <th>個数</th>
-            <th>金額</th>
-            <th>税抜 / 税込</th>
-            <th>単価（税込）</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="number" id="input-content" /></td>
-            <td><input type="number" id="input-count" /></td>
-            <td><input type="number" id="input-price" /></td>
-            <td>
-              <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
-              <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
-            </td>
-            <td><input type="text" id="calculated-unit-price" readonly /></td>
-          </tr>
-        </tbody>
-      </table>
+   <!-- 🟣 入力欄（ラベル＋入力） -->
+<div class="form-row">
+  <label for="input-content">内容量</label>
+  <input type="number" id="input-content" />
+</div>
+
+<div class="form-row">
+  <label for="input-count">個数</label>
+  <input type="number" id="input-count" />
+</div>
+
+<div class="form-row">
+  <label for="input-price">金額</label>
+  <input type="number" id="input-price" />
+</div>
+
+<div class="form-row">
+  <label>税抜 / 税込</label>
+  <div class="radio-group">
+    <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
+    <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
+  </div>
+</div>
+
+<div class="form-row">
+  <label for="calculated-unit-price">単価</label>
+  <input type="text" id="calculated-unit-price" readonly />
+</div>
+
+
 
       <button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
 
