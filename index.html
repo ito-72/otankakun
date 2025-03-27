@@ -18,12 +18,17 @@
         <p id="status-message">🔄 読み込み中...</p>
       </div>
 
-      <div>
-        <label><input type="checkbox" id="sale-toggle" /> セール中</label>
-        <select id="item-select">
-          <option value="">-- 項目を選択 --</option>
-        </select>
-      </div>
+
+<div class="form-row">
+  <label for="input-sale">セール中</label>
+  <label class="switch">
+    <input type="checkbox" id="input-sale" />
+    <span class="slider"></span>
+  </label>
+</div>
+
+
+
 
       <!-- 表示用テーブル -->
       <table border="1" style="margin-top: 1em; border-collapse: collapse;">
@@ -96,8 +101,12 @@
     <!-- 🔵 セール中 -->
 <div class="form-row">
   <label for="input-sale">セール中</label>
-  <input type="checkbox" id="input-sale" />
+  <label class="switch">
+    <input type="checkbox" id="input-sale" />
+    <span class="slider"></span>
+  </label>
 </div>
+
 
 <!-- 🔵 項目 -->
 <div class="form-row">
