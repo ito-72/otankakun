@@ -1,64 +1,49 @@
-/* style.css */
+/* 全体の背景・図形風デコ */
 body {
-  font-family: sans-serif;
+  background-color: #fefefe;
   margin: 0;
   padding: 0;
-  background-color: #f7f7f7;
+  font-family: 'Helvetica Neue', sans-serif;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.section {
+/* カラフルな背景ブロック（ahamo風） */
+body::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 200%;
+  height: 300px;
+  background: linear-gradient(45deg, #5ed3f3, #f08080, #b19cd9, #98fb98);
+  transform: rotate(-5deg);
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* 中央寄せ＋幅制限 */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
   padding: 1em;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
+  box-sizing: border-box;
 }
 
-.top-section {
-  text-align: center;
-  background-color: #eee;
-}
-
-.middle-section .controls {
-  display: flex;
-  gap: 1em;
-  margin-bottom: 1em;
-  align-items: center;
-}
-
-.item-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.item-table th,
-.item-table td {
-  border: 1px solid #ccc;
-  padding: 0.5em;
-  text-align: center;
-}
-
-#input-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-  align-items: center;
-}
-
-#input-form input,
-#input-form select {
-  padding: 0.4em;
-  font-size: 1em;
-}
-
-#input-form button {
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  margin-top: 0.5em;
-}
-
-.comparison-section {
+/* 表示セクション（上側） */
+.display-section {
+  background-color: #e0f7fa; /* 水色系 */
+  border-radius: 16px;
   padding: 1em;
-  background-color: #f0f8ff;
-  font-weight: bold;
-  text-align: center;
+  margin-bottom: 1.5em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 入力セクション（下側） */
+.input-section {
+  background-color: #ffe4f2; /* ピンク系 */
+  border-radius: 16px;
+  padding: 1em;
+  margin-bottom: 2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
