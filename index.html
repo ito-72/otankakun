@@ -92,44 +92,55 @@
 
       <button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
 
-      <table border="1" style="margin-top: 1em; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th>セール中</th>
-            <th>項目</th>
-            <th>単位</th>
-            <th>お店</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="checkbox" id="input-sale" /></td>
-            <td>
-              <select id="input-item-select">
-                <option value="">-- 項目を選択 --</option>
-                <option value="__new__">＋ 新規追加</option>
-              </select>
-              <div id="new-item-wrapper" style="display:none;">
-                <input type="text" id="new-item-name" placeholder="新しい項目名" />
-              </div>
-            </td>
-            <td><input type="text" id="input-unit" /></td>
-            <td>
-              <select id="input-store-select">
-                <option value="">-- お店を選択 --</option>
-                <option value="__new__">＋ 新規追加</option>
-              </select>
-              <div id="new-store-wrapper" style="display:none;">
-                <input type="text" id="new-store-name" placeholder="新しいお店名" />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+    <!-- 🔵 セール中 -->
+<div class="form-row">
+  <label for="input-sale">セール中</label>
+  <input type="checkbox" id="input-sale" />
+</div>
+
+<!-- 🔵 項目 -->
+<div class="form-row">
+  <label for="input-item-select">項目</label>
+  <div style="flex: 1;">
+    <select id="input-item-select" style="width: 100%;">
+      <option value="">-- 項目を選択 --</option>
+      <option value="__new__">＋ 新規追加</option>
+    </select>
+    <div id="new-item-wrapper" style="display: none; margin-top: 0.5em;">
+      <input type="text" id="new-item-name" placeholder="新しい項目名" style="width: 100%;" />
+    </div>
+  </div>
+</div>
+
+<!-- 🔵 単位 -->
+<div class="form-row">
+  <label for="input-unit">単位</label>
+  <input type="text" id="input-unit" />
+</div>
+
+<!-- 🔵 お店 -->
+<div class="form-row">
+  <label for="input-store-select">お店</label>
+  <div style="flex: 1;">
+    <select id="input-store-select" style="width: 100%;">
+      <option value="">-- お店を選択 --</option>
+      <option value="__new__">＋ 新規追加</option>
+    </select>
+    <div id="new-store-wrapper" style="display: none; margin-top: 0.5em;">
+      <input type="text" id="new-store-name" placeholder="新しいお店名" style="width: 100%;" />
+    </div>
+  </div>
+</div>
+
+
+
 
       <button id="register-btn" style="margin-top: 1em;">📝 登録</button>
       <p id="register-status" style="margin-top: 0.5em; color: green;"></p>
     </section>
+
+
 
   </div>
 
