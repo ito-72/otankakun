@@ -18,15 +18,18 @@
         <p id="status-message">🔄 読み込み中...</p>
       </div>
 
+      <!-- セール中スイッチ + 項目セレクト -->
+      <div class="form-row" style="align-items: center;">
+        <label style="white-space: nowrap;">セール中</label>
+        <label class="switch">
+          <input type="checkbox" id="sale-toggle" />
+          <span class="slider"></span>
+        </label>
 
-
-      <div>
-        <label><input type="checkbox" id="sale-toggle" /> セール中</label>
-        <select id="item-select">
+        <select id="item-select" style="flex: 1; margin-left: 1em; min-width: 160px;">
           <option value="">-- 項目を選択 --</option>
         </select>
       </div>
-
 
       <!-- 表示用テーブル -->
       <table border="1" style="margin-top: 1em; border-collapse: collapse;">
@@ -62,88 +65,82 @@
     <!-- 入力セクション -->
     <section class="input-section">
 
-   <!-- 🟣 入力欄（ラベル＋入力） -->
-<div class="form-row">
-  <label for="input-content">内容量</label>
-  <input type="number" id="input-content" />
-</div>
+      <div class="form-row">
+        <label for="input-content">内容量</label>
+        <input type="number" id="input-content" />
+      </div>
 
-<div class="form-row">
-  <label for="input-count">個数</label>
-  <input type="number" id="input-count" />
-</div>
+      <div class="form-row">
+        <label for="input-count">個数</label>
+        <input type="number" id="input-count" />
+      </div>
 
-<div class="form-row">
-  <label for="input-price">金額</label>
-  <input type="number" id="input-price" />
-</div>
+      <div class="form-row">
+        <label for="input-price">金額</label>
+        <input type="number" id="input-price" />
+      </div>
 
-<div class="form-row">
-  <label>税抜 / 税込</label>
-  <div class="radio-group">
-    <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
-    <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
-  </div>
-</div>
+      <div class="form-row">
+        <label>税抜 / 税込</label>
+        <div class="radio-group">
+          <label><input type="radio" name="tax-mode" value="before" checked /> 税抜</label>
+          <label><input type="radio" name="tax-mode" value="after" /> 税込</label>
+        </div>
+      </div>
 
-<div class="form-row">
-  <label for="calculated-unit-price">単価</label>
-  <input type="text" id="calculated-unit-price" readonly />
-</div>
-
-
+      <div class="form-row">
+        <label for="calculated-unit-price">単価</label>
+        <input type="text" id="calculated-unit-price" readonly />
+      </div>
 
       <button id="calculate-btn" style="margin-top: 1em;">🧮 単価を計算！</button>
 
+      <!-- 🔵 セール中（スライドスイッチ対応） -->
+      <div class="form-row" style="align-items: center;">
+        <label for="input-sale" style="white-space: nowrap;">セール中</label>
+        <label class="switch">
+          <input type="checkbox" id="input-sale" />
+          <span class="slider"></span>
+        </label>
+      </div>
 
-    <!-- 🔵 セール中 -->
-<div class="form-row">
-  <label for="input-sale">セール中</label>
-  <input type="checkbox" id="input-sale" />
-</div>
+      <!-- 🔵 項目 -->
+      <div class="form-row">
+        <label for="input-item-select">項目</label>
+        <div style="flex: 1;">
+          <select id="input-item-select" style="width: 100%;">
+            <option value="">-- 項目を選択 --</option>
+            <option value="__new__">＋ 新規追加</option>
+          </select>
+          <div id="new-item-wrapper" style="display: none; margin-top: 0.5em;">
+            <input type="text" id="new-item-name" placeholder="新しい項目名" style="width: 100%;" />
+          </div>
+        </div>
+      </div>
 
-<!-- 🔵 項目 -->
-<div class="form-row">
-  <label for="input-item-select">項目</label>
-  <div style="flex: 1;">
-    <select id="input-item-select" style="width: 100%;">
-      <option value="">-- 項目を選択 --</option>
-      <option value="__new__">＋ 新規追加</option>
-    </select>
-    <div id="new-item-wrapper" style="display: none; margin-top: 0.5em;">
-      <input type="text" id="new-item-name" placeholder="新しい項目名" style="width: 100%;" />
-    </div>
-  </div>
-</div>
+      <!-- 🔵 単位 -->
+      <div class="form-row">
+        <label for="input-unit">単位</label>
+        <input type="text" id="input-unit" />
+      </div>
 
-<!-- 🔵 単位 -->
-<div class="form-row">
-  <label for="input-unit">単位</label>
-  <input type="text" id="input-unit" />
-</div>
-
-<!-- 🔵 お店 -->
-<div class="form-row">
-  <label for="input-store-select">お店</label>
-  <div style="flex: 1;">
-    <select id="input-store-select" style="width: 100%;">
-      <option value="">-- お店を選択 --</option>
-      <option value="__new__">＋ 新規追加</option>
-    </select>
-    <div id="new-store-wrapper" style="display: none; margin-top: 0.5em;">
-      <input type="text" id="new-store-name" placeholder="新しいお店名" style="width: 100%;" />
-    </div>
-  </div>
-</div>
-
-
-
+      <!-- 🔵 お店 -->
+      <div class="form-row">
+        <label for="input-store-select">お店</label>
+        <div style="flex: 1;">
+          <select id="input-store-select" style="width: 100%;">
+            <option value="">-- お店を選択 --</option>
+            <option value="__new__">＋ 新規追加</option>
+          </select>
+          <div id="new-store-wrapper" style="display: none; margin-top: 0.5em;">
+            <input type="text" id="new-store-name" placeholder="新しいお店名" style="width: 100%;" />
+          </div>
+        </div>
+      </div>
 
       <button id="register-btn" style="margin-top: 1em;">📝 登録</button>
       <p id="register-status" style="margin-top: 0.5em; color: green;"></p>
     </section>
-
-
 
   </div>
 
