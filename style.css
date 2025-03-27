@@ -91,7 +91,7 @@ button:hover {
 .switch {
   position: relative;
   display: inline-block;
-  width: 20px;//ボタン横幅
+width: 40px; /* ボタン横幅 */
   height: 16px;
 }
 
