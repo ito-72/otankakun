@@ -306,6 +306,18 @@
 
 
 
+// ✅ トースト表示関数
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000); // 3秒後に非表示
+}
+
+
 //登録スクリプト
 document.getElementById("register-btn").addEventListener("click", async () => {
   const itemName = inputItemSelect.value === "__new__"
@@ -323,44 +335,40 @@ document.getElementById("register-btn").addEventListener("click", async () => {
     unit: inputUnit.value,
     count: inputCount.value,
     priceBeforeTax: inputPrice.value,
-    priceTaxed: calculateTaxIncluded(parseFloat(inputPrice.value), document.querySelector('input[name="tax-mode"]:checked').value === "before"),
+    priceTaxed: calculateTaxIncluded(
+      parseFloat(inputPrice.value),
+      document.querySelector('input[name="tax-mode"]:checked').value === "before"
+    ),
     unitPrice: unitPriceField.value,
     unitOfUnitPrice: inputUnit.value,
     store: storeName,
-    sale: document.getElementById("input-sale").checked
+    sale: document.getElementById("input-sale").checked,
   };
 
-try {
-  const response = await fetch("/api/recordItem", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch("/api/recordItem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-  const result = await response.json();
+    const result = await response.json();
 
-  if (result.success) {
-    showToast("✅ スプレッドを更新しました！");
-  } else {
-    showToast("⚠️ 登録に失敗しました。");
+    if (result.success) {
+      showToast("✅ スプレッドを更新しました！");
+    } else {
+      showToast("⚠️ 登録に失敗しました。");
+    }
+  } catch (error) {
+    console.error("登録エラー:", error);
+    showToast("⚠️ 通信エラーが発生しました。");
   }
-} catch (error) {
-  console.error("登録エラー:", error);
-  showToast("⚠️ 通信エラーが発生しました。");
-}
+}); // ← ✅この閉じ括弧とセミコロンが必須！
 
 
 
-// ✅ トースト表示関数
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000); // 3秒後に非表示
-}
+
 
 
 </script>
