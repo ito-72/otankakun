@@ -1,9 +1,25 @@
+/* ===================== */
+/* 🎨 色の定義（ここだけで色を管理） */
+/* ===================== */
+:root {
+  --main-bg: #ffffff;                         /* 全体背景（body） */
+  --display-section-bg: #e0f7fa;              /* 表示セクション背景 */
+  --input-section-bg: #ffe4f2;                /* 入力セクション背景 */
+  --button-bg: #ff4081;                       /* ボタンの通常時 */
+  --button-hover-bg: #f50057;                 /* ボタンのホバー時 */
+  --border-color: #ccc;                       /* テーブルやinputなどの枠線 */
+  --text-color: #333;                         /* ラベルなどの基本テキスト色 */
+}
+
+/* ===================== */
+/* 全体レイアウト・背景 */
+/* ===================== */
 body {
-  background-color: #ffffff;
+  background-color: var(--main-bg);
   position: relative;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
-  height: 80dvh; /* iOSの全画面表示に対応 */
+  height: 80dvh;
   box-sizing: border-box;
   padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px);
   margin: 0;
@@ -16,8 +32,11 @@ body {
   box-sizing: border-box;
 }
 
+/* ===================== */
+/* 表示・入力セクション */
+/* ===================== */
 .display-section {
-  background-color: #e0f7fa;
+  background-color: var(--display-section-bg);
   border-radius: 16px;
   padding: 1em;
   margin-bottom: 1.5em;
@@ -25,13 +44,16 @@ body {
 }
 
 .input-section {
-  background-color: #ffe4f2;
+  background-color: var(--input-section-bg);
   border-radius: 16px;
   padding: 1em;
   margin-bottom: 2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* ===================== */
+/* ラベル・フォーム行 */
+/* ===================== */
 .form-row {
   display: flex;
   align-items: center;
@@ -43,29 +65,34 @@ body {
   width: 6em;
   font-weight: bold;
   font-size: 1em;
-  color: #333;
+  color: var(--text-color); /* ラベル文字色 */
 }
 
 .form-row input[type="number"],
-.form-row input[type="text"] {
+.form-row input[type="text"],
+.form-row input[type="tel"] {
   flex: 1;
   padding: 0.5em;
   font-size: 1em;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   box-sizing: border-box;
 }
 
+/* ラジオボタン */
 .radio-group {
   display: flex;
   gap: 1em;
   flex-wrap: wrap;
 }
 
+/* ===================== */
+/* セレクトボックス */
+/* ===================== */
 select {
   appearance: none;
   background-color: #fff;
-  border: 2px solid #ccc;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   padding: 0.5em;
   font-size: 1em;
@@ -76,8 +103,11 @@ select {
   background-size: 1em;
 }
 
+/* ===================== */
+/* ボタンスタイル */
+/* ===================== */
 button {
-  background-color: #ff4081;
+  background-color: var(--button-bg);
   color: white;
   border: none;
   padding: 0.6em 1.2em;
@@ -90,64 +120,64 @@ button {
 }
 
 button:hover {
-  background-color: #f50057;
+  background-color: var(--button-hover-bg);
 }
 
-
-
-/* 表示テーブルの枠線を通常の実線に＋横はみ出し対策 */
+/* ===================== */
+/* 表示テーブル */
+/* ===================== */
 .display-table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 
-/* セル全体の基本設定（文字折り返し含む） */
 .display-table th,
 .display-table td {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   word-break: break-word;
   white-space: normal;
   font-size: 14px;
   padding: 4px;
 }
 
-/* ヘッダー：横書き＆上詰め */
 .display-table thead th {
   vertical-align: top;
 }
 
-/* データ行：中央寄せ */
 .display-table tbody td {
   text-align: center;
   vertical-align: middle;
 }
 
-/* 単価だけ太字 */
+/* 単価（税込）のセルだけ太字 */
 #unit-price {
   font-weight: bold;
 }
 
-
-/* ✅ トースト通知 */
+/* ===================== */
+/* トースト通知 */
+/* ===================== */
 .toast {
+  visibility: hidden;
+  min-width: 240px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 1em;
   position: fixed;
-  bottom: 20px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #323232;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 0.9em;
+  z-index: 9999;
+  font-size: 1em;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, bottom 0.4s ease;
-  z-index: 1000;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .toast.show {
+  visibility: visible;
   opacity: 1;
-  bottom: 40px;
-  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
 }
