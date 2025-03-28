@@ -108,15 +108,14 @@ button:hover {
   border-bottom: 1px solid #ccc;
 }
 
-/* ヘッダー縦書き・上詰め */
+/* ヘッダー：横書き上詰めにする */
 .display-table thead th {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
   vertical-align: top;
   padding: 0.5em;
+  /* writing-mode や text-orientation は削除 */
 }
 
-/* データ行は中央寄せ */
+/* データ行：中央寄せ */
 .display-table tbody td {
   text-align: center;
   vertical-align: middle;
