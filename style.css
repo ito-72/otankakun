@@ -2,7 +2,7 @@ body {
   background-color: #ffffff;
   position: relative;
   overflow-x: hidden;
-  font-family: 'Zen Maru Gothic', sans-serif;  /* ← これを追加！ */
+  font-family: 'Poppins', sans-serif;
 }
 
 .container {
