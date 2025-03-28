@@ -42,34 +42,24 @@
       </div>
 
      <!-- 表示用テーブル -->
+<!-- 表示用テーブル（3列だけに簡素化） -->
 <table class="display-table">
   <thead>
     <tr>
       <th>項目</th>
-      <th>内容量</th>
-      <th>単位</th>
-      <th>個数</th>
-      <th>税抜</th>
-      <th>税込</th>
       <th>単価（税込）</th>
-      <th>単価の単位</th>
       <th>お店</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td id="item-name">--</td>
-      <td id="content">--</td>
-      <td id="unit">--</td>
-      <td id="count">--</td>
-      <td id="price-before-tax">--</td>
-      <td id="price-taxed">--</td>
       <td id="unit-price">--</td>
-      <td id="unit-of-unit-price">--</td>
       <td id="store">--</td>
     </tr>
   </tbody>
 </table>
+
 
     </section>
 
@@ -224,17 +214,12 @@
 
     const latest = filtered[filtered.length - 1];
 
-    const fieldMap = {
-      "item-name": "itemName",
-      "content": "content",
-      "unit": "unit",
-      "count": "count",
-      "price-before-tax": "priceBeforeTax",
-      "price-taxed": "priceTaxed",
-      "unit-price": "unitPrice",
-      "unit-of-unit-price": "unitOfUnitPrice",
-      "store": "store",
-    };
+   const fieldMap = {
+  "item-name": "itemName",
+  "unit-price": "unitPrice",
+  "store": "store",
+};
+
 
     if (latest) {
       for (const [id, key] of Object.entries(fieldMap)) {
