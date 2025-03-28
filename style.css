@@ -3,6 +3,10 @@ body {
   position: relative;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
+  height: 80dvh; /* iOSの全画面表示に対応 */
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px);
+  margin: 0;
 }
 
 .container {
