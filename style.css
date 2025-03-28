@@ -95,24 +95,16 @@ button:hover {
 
 
 
-/* 表示テーブル：縦線は点線、横線は実線 */
+/* 表示テーブルの枠線を通常の実線に */
 .display-table th,
 .display-table td {
-  border-left: 1px dotted #aaa;
-  border-right: 1px dotted #aaa;
+  border: 1px solid #ccc;
 }
 
-.display-table thead th,
-.display-table tbody td {
-  border-top: none;
-  border-bottom: 1px solid #ccc;
-}
-
-/* ヘッダー：横書き上詰めにする */
+/* ヘッダー：横書き＆上詰め */
 .display-table thead th {
   vertical-align: top;
   padding: 0.5em;
-  /* writing-mode や text-orientation は削除 */
 }
 
 /* データ行：中央寄せ */
