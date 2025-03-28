@@ -92,3 +92,37 @@ button {
 button:hover {
   background-color: #f50057;
 }
+
+
+
+/* 表示テーブル：縦線は点線、横線は実線 */
+.display-table th,
+.display-table td {
+  border-left: 1px dotted #aaa;
+  border-right: 1px dotted #aaa;
+}
+
+.display-table thead th,
+.display-table tbody td {
+  border-top: none;
+  border-bottom: 1px solid #ccc;
+}
+
+/* ヘッダー縦書き・上詰め */
+.display-table thead th {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  vertical-align: top;
+  padding: 0.5em;
+}
+
+/* データ行は中央寄せ */
+.display-table tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 単価だけ太字 */
+#unit-price {
+  font-weight: bold;
+}
