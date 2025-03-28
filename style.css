@@ -95,16 +95,26 @@ button:hover {
 
 
 
-/* 表示テーブルの枠線を通常の実線に */
+/* 表示テーブルの枠線を通常の実線に＋横はみ出し対策 */
+.display-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* セル全体の基本設定（文字折り返し含む） */
 .display-table th,
 .display-table td {
   border: 1px solid #ccc;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 14px;
+  padding: 4px;
 }
 
 /* ヘッダー：横書き＆上詰め */
 .display-table thead th {
   vertical-align: top;
-  padding: 0.5em;
 }
 
 /* データ行：中央寄せ */
