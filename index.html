@@ -65,9 +65,41 @@
 
     <!-- 入力セクション -->
     <section class="input-section">
-      <div class="form-row"><label for="input-content">内容量</label><input type="number" id="input-content" /></div>
-      <div class="form-row"><label for="input-count">個数</label><input type="number" id="input-count" /></div>
-      <div class="form-row"><label for="input-price">金額</label><input type="number" id="input-price" /></div>
+
+   <!-- 内容量 -->
+<div class="form-row">
+  <label for="input-content">内容量</label>
+  <input
+    type="tel"
+    id="input-content"
+    pattern="[0-9]*"
+    inputmode="numeric"
+  />
+</div>
+
+<!-- 個数 -->
+<div class="form-row">
+  <label for="input-count">個数</label>
+  <input
+    type="tel"
+    id="input-count"
+    pattern="[0-9]*"
+    inputmode="numeric"
+  />
+</div>
+
+<!-- 金額 -->
+<div class="form-row">
+  <label for="input-price">金額</label>
+  <input
+    type="tel"
+    id="input-price"
+    pattern="[0-9]*"
+    inputmode="numeric"
+  />
+</div>
+
+
 
       <div class="form-row">
         <label>税抜 / 税込</label>
