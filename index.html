@@ -121,11 +121,9 @@
     </section>
   </div>
 
-<script>
-  // 必要なJS（省略せずに全部入れるなら元のコードでOK）
-</script>
-</body>
-</html>
+
+<!-- ✅ トースト通知用 -->
+<div id="toast" class="toast">ここにメッセージ</div>
 
 
 <script>
@@ -307,6 +305,18 @@
   });
 
 
+// ✅ トースト表示関数
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000); // 3秒後に非表示
+}
+
+
 
 //登録スクリプト
 document.getElementById("register-btn").addEventListener("click", async () => {
@@ -332,29 +342,31 @@ document.getElementById("register-btn").addEventListener("click", async () => {
     sale: document.getElementById("input-sale").checked
   };
 
-  try {
-    const response = await fetch("/api/recordItem", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+try {
+  const response = await fetch("/api/recordItem", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
 
-    const result = await response.json();
+  const result = await response.json();
 
-    if (result.success) {
-      document.getElementById("register-status").textContent = "✅ スプレッドを更新しました！";
-    } else {
-      document.getElementById("register-status").textContent = "⚠️ 登録に失敗しました。";
-    }
-  } catch (error) {
-    console.error("登録エラー:", error);
-    document.getElementById("register-status").textContent = "⚠️ 通信エラーが発生しました。";
+  if (result.success) {
+    showToast("✅ スプレッドを更新しました！");
+  } else {
+    showToast("⚠️ 登録に失敗しました。");
   }
-});
+} catch (error) {
+  console.error("登録エラー:", error);
+  showToast("⚠️ 通信エラーが発生しました。");
+}
+
+
 
 
 
 </script>
+
 
 
 </body>
