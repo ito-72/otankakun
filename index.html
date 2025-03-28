@@ -350,7 +350,8 @@ function showToast(message) {
 }
 
 
-//登録スクリプト
+
+// 登録ボタンの処理
 document.getElementById("register-btn").addEventListener("click", async () => {
   const itemName = inputItemSelect.value === "__new__"
     ? document.getElementById("new-item-name").value.trim()
@@ -360,28 +361,38 @@ document.getElementById("register-btn").addEventListener("click", async () => {
     ? document.getElementById("new-store-name").value.trim()
     : inputStoreSelect.value;
 
+  const priceValue = parseFloat(inputPrice.value);
+  const taxMode = document.querySelector('input[name="tax-mode"]:checked').value;
+
+  let priceBeforeTax, priceTaxed;
+
+  if (taxMode === "before") {
+    priceBeforeTax = priceValue;
+    priceTaxed = Math.round(priceValue * 1.1); // 税込に変換
+  } else {
+    priceTaxed = priceValue;
+    priceBeforeTax = Math.round(priceValue / 1.1); // 税抜に変換
+  }
+
   const payload = {
     mode: "recordItem",
     itemName,
     content: inputContent.value,
     unit: inputUnit.value,
     count: inputCount.value,
-    priceBeforeTax: inputPrice.value,
-    priceTaxed: calculateTaxIncluded(
-      parseFloat(inputPrice.value),
-      document.querySelector('input[name="tax-mode"]:checked').value === "before"
-    ),
+    priceBeforeTax: priceBeforeTax,
+    priceTaxed: priceTaxed,
     unitPrice: unitPriceField.value,
     unitOfUnitPrice: inputUnit.value,
     store: storeName,
-    sale: document.getElementById("input-sale").checked,
+    sale: document.getElementById("input-sale").checked
   };
 
   try {
     const response = await fetch("/api/recordItem", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(payload)
     });
 
     const result = await response.json();
@@ -395,10 +406,7 @@ document.getElementById("register-btn").addEventListener("click", async () => {
     console.error("登録エラー:", error);
     showToast("⚠️ 通信エラーが発生しました。");
   }
-}); // ← ✅この閉じ括弧とセミコロンが必須！
-
-
-
+});
 
 
 
